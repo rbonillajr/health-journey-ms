@@ -1,7 +1,59 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "health-journey-ms": {
+      "root": "apps/health-journey-ms",
+      "sourceRoot": "apps/health-journey-ms/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/health-journey-ms",
+            "main": "apps/health-journey-ms/src/main.ts",
+            "tsConfig": "apps/health-journey-ms/tsconfig.app.json",
+            "assets": ["apps/health-journey-ms/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/health-journey-ms/src/environments/environment.ts",
+                  "with": "apps/health-journey-ms/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "health-journey-ms:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/health-journey-ms/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/health-journey-ms"],
+          "options": {
+            "jestConfig": "apps/health-journey-ms/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/node"
+  },
+  "defaultProject": "health-journey-ms"
 }
